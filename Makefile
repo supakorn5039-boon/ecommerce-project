@@ -7,12 +7,15 @@ backend-build:
 backend-run:
 	cd backend && make run
 
+backend-test:
+	cd backend && make test
+
 backend-clean:
 	cd backend && make clean
 
 # Frontend
 frontend-install:
-	cd frontend && npm install
+	cd frontend && make install
 
 frontend-build:
-	cd frontend && npm run build
+	cd frontend && make build

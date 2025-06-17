@@ -1,13 +1,13 @@
 .PHONY: install build test dev
 
-install:
+frontend-install:
 	npm install
 
-build:
+frontend-build:
 	npm run build
 
-test:
+frontend-test:
 	npm run test
 
-dev:
+frontend-dev:
 	npm run dev

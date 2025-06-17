@@ -4,12 +4,15 @@ SOURCE_DIR = cmd/api/main.go
 
 .PHONY: build clean run
 
-build:
-	mkdir -p $(OUT_DIR)
-	go build -o $(OUT_DIR)/$(APP_NAME) $(SOURCE_DIR)
+backend-build:
+	mkdir -p tmp
+	go build -o tmp/main ./cmd/api
 
-clean:
+backend-clean:
 	rm -rf $(OUT_DIR)
 
-run: build
+backend-run: build
 	./$(OUT_DIR)/$(APP_NAME)
+
+backend-test:
+	go test ./...	

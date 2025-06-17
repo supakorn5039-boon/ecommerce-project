@@ -27,27 +27,36 @@ jobs:
           --health-retries 5
 
     env:
-      DB_DSN: host=localhost user=postgres password=password dbname=ecommerce port=5432 sslmode=disable
+      DB_DSN: host=localhost user=postgres password=password dbname=ecommerce port=5433 sslmode=disable
+
+    defaults:
+      run:
+        working-directory: backend
 
     steps:
       - uses: actions/checkout@v3
-
+      
       - name: Set up Go
         uses: actions/setup-go@v4
         with:
-          go-version: 1.22
+          go-version: 1.22.x
+          
+      - name: Init go.mod (ignore if exists)
+        run: |
+          go mod init github.com/your/module || true
+        working-directory: backend
 
       - name: Run go mod tidy
         run: go mod tidy
-        working-directory: backend
 
-      - name: Build Go backend
-        run: go build -o tmp/main ./cmd/api
-        working-directory: backend
+      - name: Backend Build
+        run: make backend-build
 
-      - name: Run tests
-        run: go test ./... -v
-        working-directory: backend
+      - name: Backend Test
+        run: make backend-test
+
+      - name: Cleanup
+        run: rm -f tmp/main
 
   frontend:
     name: Frontend - React CI
@@ -65,12 +74,12 @@ jobs:
         with:
           node-version: 20
 
-      - name: Clean node_modules
-        run: rm -rf node_modules
+      - name: Clean node_modules and cache
+        run: rm -rf node_modules && rm -rf ~/.npm
 
-      - name: Install dependencies
-        run: npm install
+      - name: Frontend Install
+        run: make frontend-install
 
-      - name: Build frontend
-        run: npm run build
+      - name: Frontend Build
+        run: make frontend-build
 
