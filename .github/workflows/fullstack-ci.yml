@@ -48,8 +48,11 @@ jobs:
         run: go mod tidy
 
       - name: Run go build
-        run: go build ./...
+        run: go build -o tmp/main ./cmd/api
 
+      - name: Cleanup
+        run: rm -f tmp/main
+  
       - name: Run tests
         run: go test ./... -v
 
@@ -63,14 +66,18 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
-      
+
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
           node-version: 20
+
+      - name: Clean node_modules
+        run: rm -rf node_modules
 
       - name: Install dependencies
         run: npm install
 
       - name: Build frontend
         run: npm run build
+
