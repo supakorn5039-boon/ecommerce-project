@@ -37,11 +37,19 @@ jobs:
       - name: Set up Go
         uses: actions/setup-go@v4
         with:
-          go-version: 1.23.1
-      - name: Install dependencies
+          go-version: 1.22
+          
+      - name: Run go mod tidy
+        working-directory: ./backend
         run: go mod tidy
-      - name: Run backend tests
-        run: go test ./...
+
+      - name: Run go build
+        working-directory: ./backend
+        run: go build ./...
+
+      - name: Run tests
+        working-directory: ./backend
+        run: go test ./... -v
 
   frontend:
     name: Frontend - React CI
