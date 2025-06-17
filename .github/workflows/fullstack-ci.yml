@@ -29,32 +29,25 @@ jobs:
     env:
       DB_DSN: host=localhost user=postgres password=password dbname=ecommerce port=5432 sslmode=disable
 
-    defaults:
-      run:
-        working-directory: backend
-
     steps:
       - uses: actions/checkout@v3
-      
+
       - name: Set up Go
         uses: actions/setup-go@v4
         with:
-          go-version: 1.23.1
-          
-      - name: Init go.mod
-        run: go mod init github.com/supakorn5039-boon/ecommerce-project/backend
+          go-version: 1.22
 
       - name: Run go mod tidy
         run: go mod tidy
+        working-directory: backend
 
-      - name: Run go build
+      - name: Build Go backend
         run: go build -o tmp/main ./cmd/api
+        working-directory: backend
 
-      - name: Cleanup
-        run: rm -f tmp/main
-  
       - name: Run tests
         run: go test ./... -v
+        working-directory: backend
 
   frontend:
     name: Frontend - React CI
