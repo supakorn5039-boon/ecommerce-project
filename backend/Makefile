@@ -1,7 +1,15 @@
 APP_NAME = ecommerce-backend
 OUT_DIR = dist
-SOURECE_DIR = cmd/main.go
+SOURCE_DIR = cmd/api/main.go
 
-build: 
+.PHONY: build clean run
+
+build:
 	mkdir -p $(OUT_DIR)
-	go build -o $(OUT_DIR)/$(APP_NAME) $(SOURECE_DIR)
+	go build -o $(OUT_DIR)/$(APP_NAME) $(SOURCE_DIR)
+
+clean:
+	rm -rf $(OUT_DIR)
+
+run: build
+	./$(OUT_DIR)/$(APP_NAME)
