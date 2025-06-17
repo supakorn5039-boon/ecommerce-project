@@ -7,20 +7,36 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
-node_modules
-dist
-dist-ssr
+# Node.js / Frontend
+node_modules/
+dist/
+dist-ssr/
 *.local
 .env
-
+.env.*   # Ignore environment files for all environments (e.g., .env.dev)
 
 # Editor directories and files
-.vscode/*
+.vscode/
 !.vscode/extensions.json
-.idea
+.idea/
 .DS_Store
 *.suo
 *.ntvs*
 *.njsproj
 *.sln
 *.sw?
+
+# Go / Backend
+backend/tmp/
+*.exe
+*.out
+*.test
+*.log
+*.mod
+*.sum
+
+# Optional: OS or swap files
+*.swp
+*.bak
+*.tmp
+*~
