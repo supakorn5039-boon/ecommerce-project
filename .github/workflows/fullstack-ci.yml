@@ -1,0 +1,85 @@
+name: FullStack CI
+
+on:
+  push:
+    branches: [main, dev]
+  pull_request:
+    branches: [main, dev]
+
+jobs:
+  backend:
+    name: Backend - Go CI
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: password
+          POSTGRES_DB: ecommerce
+        ports:
+          - 5433:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    env:
+      DB_DSN: host=localhost user=postgres password=password dbname=ecommerce port=5433 sslmode=disable
+
+    defaults:
+      run:
+        working-directory: backend
+
+    steps:
+      - uses: actions/checkout@v3
+      
+      - name: Set up Go
+        uses: actions/setup-go@v4
+        with:
+          go-version: 1.22.x
+          
+      - name: Init go.mod (ignore if exists)
+        run: |
+          go mod init github.com/your/module || true
+        working-directory: backend
+
+      - name: Run go mod tidy
+        run: go mod tidy
+
+      - name: Backend Build
+        run: make backend-build
+
+      - name: Backend Test
+        run: make backend-test
+
+      - name: Cleanup
+        run: rm -f tmp/main
+
+  frontend:
+    name: Frontend - React CI
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: frontend
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 20
+
+      - name: Clean node_modules and cache
+        run: rm -rf node_modules && rm -rf ~/.npm
+
+      - name: Frontend Install
+        run: make frontend-install
+
+      - name: Frontend Build
+        run: make frontend-build
+
