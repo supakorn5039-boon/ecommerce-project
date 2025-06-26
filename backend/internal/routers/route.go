@@ -3,6 +3,7 @@ package routers
 import (
 	"ecommerce/backend/internal/adapters/user"
 	"ecommerce/backend/internal/usecases"
+	"ecommerce/backend/pkg/middleware"
 
 	"github.com/gin-gonic/gin"
 	"gorm.io/gorm"
@@ -15,7 +16,9 @@ func SetupRoutes(r *gin.Engine, db *gorm.DB) {
 
 	api := r.Group("/api")
 	{
-		api.GET("/users", userHandler.GetUsers)
+		api.GET("/users", middleware.JWTAuthMiddleware(), userHandler.GetUsers)
+		api.POST("/register", userHandler.Register)
+		api.POST("/login", userHandler.Login)
 	}
 
 }

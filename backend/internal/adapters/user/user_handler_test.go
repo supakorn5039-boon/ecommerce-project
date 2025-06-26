@@ -1,6 +1,7 @@
 package user_test
 
 import (
+	"context"
 	"net/http"
 	"net/http/httptest"
 	"testing"
@@ -36,4 +37,16 @@ func TestGetUsers(t *testing.T) {
 
 	assert.Equal(t, http.StatusOK, resp.Code)
 	assert.Contains(t, resp.Body.String(), "John Doe")
+}
+
+func (m *mockUserUsecase) GetUserByUsername(ctx context.Context, username string) (*entities.User, error) {
+	return &entities.User{
+		ID:       1,
+		Username: "John Doe",
+		Password: "$2a$10$fakeHashedPassword",
+	}, nil
+}
+
+func (m *mockUserUsecase) CreateUser(ctx context.Context, user *entities.User) error {
+	return nil
 }
