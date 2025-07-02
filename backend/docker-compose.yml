@@ -1,15 +1,15 @@
 services: 
   postgres:
-    image: postgres:16
+    image: postgres:17.5-alpine3.21
+    restart: unless-stopped
     container_name: ecommerce-postgres
-    restart: always
     environment:
-      POSTGRES_USER: ${POSTGRES_USER}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: username
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: ecommerce
     ports:
       - 5432:5432
+    volumes:
+      - ./docker/postgres:/var/lib/postgresql/data
 
-volumes:
-  pgdata:
 

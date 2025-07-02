@@ -34,6 +34,8 @@ backend/tmp/
 *.log
 *.mod
 *.sum
+*/docker
+
 
 # Optional: OS or swap files
 *.swp
