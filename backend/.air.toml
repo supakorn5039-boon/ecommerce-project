@@ -1,5 +1,5 @@
 [build]
-cmd = "go build -o ./tmp/main ./cmd/api"
+cmd = "go build -o ./tmp/main ./main.go"
 bin = "tmp/main"
 full_bin = "tmp/main"
 watch_dir = "."
