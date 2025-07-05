@@ -54,7 +54,7 @@ func main() {
 		{
 			Username: "username",
 			Password: hashedPassword,
-			Role:     "user",
+			Role:     "admin",
 		},
 	}
 
