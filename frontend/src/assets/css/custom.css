@@ -1,0 +1,161 @@
+@import url('https://fonts.googleapis.com/css2?family=Prompt:wght@400&display=swap');
+
+* {
+    font-family: 'Prompt', sans-serif;
+}
+
+.btn-font {
+    font-size: 16px;
+    font-weight: normal;
+}
+
+.bg-menu {
+    background-color: #0f0f0e;
+}
+
+.sidebar .nav-item a div:first-child svg,
+.sidebar .nav-item button div:first-child svg {
+    height: 1.25rem !important;
+    width: 1.25rem !important;
+    color: rgb(156 163 175 / 0.5) !important;
+}
+
+.dt-custom {
+    /*overflow: auto !important;*/
+    border-radius: 0 !important;
+    overflow: visible !important;
+}
+
+.vertical-line {
+    border-left: 2px solid #5e5d6a; /* Black vertical line */
+    height: 100%; /* Adjust height as needed */
+    padding-left: 1rem;
+}
+
+.custom-popup {
+    border-radius: 10px;
+    padding: 20px;
+}
+
+.custom-popup-animation-in {
+    animation: fadeIn 0.3s ease-in-out !important;
+}
+
+.custom-popup-animation-out {
+    animation: fadeOut 0.3s ease-in-out !important;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+@keyframes fadeOut {
+    from {
+        opacity: 1;
+        transform: scale(1);
+    }
+    to {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+}
+
+.custom-title {
+    font-size: 20px !important;
+    font-weight: bold !important;
+    text-align: left !important;
+}
+
+.swal2-popup .swal2-html-container {
+    margin: 0 !important;
+    color: #333;
+    font-weight: 300;
+}
+
+.custom-html {
+    font-size: 14px;
+    text-align: left;
+}
+
+/* flex row button render */
+.custom-actions {
+    display: flex;
+    justify-content: flex-end; /* Align buttons to the right */
+    align-items: flex-end;
+    width: 100%;
+    margin: 0; /* Remove default margin */
+    padding: 10px; /* Add some spacing */
+}
+
+.custom-confirm-btn {
+    order: 2; /* Ensure confirm button is on the right */
+    margin-left: 10px; /* Add spacing between buttons */
+
+    background-color: #e7515a !important; /* Red color */
+    color: white !important;
+    border-radius: 8px;
+    padding: 10px 20px;
+    font-size: 16px;
+}
+
+.custom-confirm-action-btn {
+    order: 2; /* Ensure confirm button is on the right */
+    margin-left: 10px; /* Add spacing between buttons */
+
+    background-color: #ff7100 !important; /* Red color */
+    color: white !important;
+    border-radius: 8px;
+    padding: 10px 20px;
+    font-size: 16px;
+}
+
+.swal2-container .swal2-actions .swal2-cancel.custom-cancel-btn {
+    order: 1; /* Ensure cancel button is on the left */
+
+    background-color: #00000000 !important;
+    color: #e74c3c !important;
+    border: 1px solid #e74c3c !important;
+    border-radius: 8px;
+    font-size: 16px;
+}
+
+.custom-confirm-btn i {
+    margin-right: 5px;
+}
+
+/* Style for the Close (X) Button */
+.custom-close-btn {
+    font-size: 24px !important; /* Make "X" bigger */
+    color: black !important; /* Change color to red */
+    top: 10px !important; /* Adjust position (higher/lower) */
+    right: 10px !important; /* Adjust position (left/right) */
+    width: 40px !important; /* Custom width */
+    height: 40px !important; /* Custom height */
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    /*border-radius: 50% !important; !* Make it circular *!*/
+    /*background-color: rgba(255, 0, 0, 0.1) !important; !* Light red background *!*/
+    transition: all 0.3s ease-in-out;
+}
+
+.input-dark-placeholder::placeholder {
+    @apply !text-[#888ea8];
+}
+
+.input-light-placeholder::placeholder {
+    @apply !text-[#000];
+}
+
+/* Change color when hovering over "X" */
+/*.custom-close-btn:hover {*/
+/*    color: white !important;*/
+/*    background-color: red !important;*/
+/*}*/
