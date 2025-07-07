@@ -6,3 +6,4 @@ Minimalist ecommerce project written with React Vite (TS) + Go (Gin + GORM)
 - [x] create home page [frontend]
 - [x] create CRUD user endpoint [backend]
 
+
