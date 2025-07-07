@@ -5,21 +5,21 @@ import (
 	"testing"
 
 	"github.com/stretchr/testify/assert"
-	"gorm.io/driver/postgres"
+	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
 )
 
 func setupTestProductDB(t *testing.T) *gorm.DB {
-	dsn := "host=localhost port=5432 user=username password=password dbname=ecommerce sslmode=disable TimeZone=Asia/Bangkok"
-
-	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
+	db, err := gorm.Open(sqlite.Open("file::memory:?cache=shared"), &gorm.Config{})
 	if err != nil {
 		t.Fatalf("failed to connect to test db: %v", err)
 	}
-	if err := db.Exec("DROP TABLE IF EXISTS products CASCADE").Error; err != nil {
-		t.Fatal(err)
+
+	err = db.AutoMigrate(&models.Product{})
+	if err != nil {
+		t.Fatalf("failed to migrate test db: %v", err)
 	}
-	db.AutoMigrate(&models.Product{})
+
 	return db
 }
 
