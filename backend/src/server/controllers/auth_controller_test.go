@@ -21,11 +21,13 @@ func setupTestDB() *gorm.DB {
 	if err != nil {
 		panic("failed to connect to test database")
 	}
+
 	err = db.AutoMigrate(&models.User{})
 	if err != nil {
 		panic("failed to migrate test database")
 	}
-	services.SetTestDB(db)
+
+	services.SetTestDB(db) // Make sure your service uses this test DB
 	return db
 }
 

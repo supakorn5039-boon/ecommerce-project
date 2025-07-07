@@ -6,7 +6,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func SuccessRespoinse(c *gin.Context, data interface{}) {
+func SuccessResponse(c *gin.Context, data interface{}) {
 	c.JSON(http.StatusOK, data)
 }
 
