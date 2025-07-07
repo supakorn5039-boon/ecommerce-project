@@ -15,7 +15,7 @@ jobs:
       postgres:
         image: postgres:16
         env:
-          POSTGRES_USER: postgres
+          POSTGRES_USER: username
           POSTGRES_PASSWORD: password
           POSTGRES_DB: ecommerce
         ports:
@@ -27,7 +27,7 @@ jobs:
           --health-retries 5
 
     env:
-      DB_DSN: host=localhost user=postgres password=password dbname=ecommerce port=5433 sslmode=disable
+      DB_DSN: host=localhost user=username password=password dbname=ecommerce port=5433 sslmode=disable
 
     defaults:
       run:
