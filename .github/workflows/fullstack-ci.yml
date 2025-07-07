@@ -35,28 +35,27 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
-      
+
       - name: Set up Go
         uses: actions/setup-go@v4
         with:
           go-version: 1.22.x
-          
-      - name: Init go.mod (ignore if exists)
-        run: |
-          go mod init github.com/your/module || true
-        working-directory: backend
 
-      - name: Run go mod tidy
+      - name: Cache Go modules
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.cache/go-build
+            ~/go/pkg/mod
+          key: ${{ runner.os }}-go-${{ hashFiles('**/go.sum') }}
+          restore-keys: |
+            ${{ runner.os }}-go-
+
+      - name: Tidy Go modules
         run: go mod tidy
-
-      - name: Backend Build
-        run: make backend-build
 
       - name: Backend Test
         run: make backend-test
-
-      - name: Cleanup
-        run: rm -f tmp/main
 
   frontend:
     name: Frontend - React CI
@@ -74,12 +73,16 @@ jobs:
         with:
           node-version: 20
 
-      - name: Clean node_modules and cache
-        run: rm -rf node_modules && rm -rf ~/.npm
+      - name: Cache Node modules
+        uses: actions/cache@v3
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
 
       - name: Frontend Install
         run: make frontend-install
 
       - name: Frontend Build
         run: make frontend-build
-

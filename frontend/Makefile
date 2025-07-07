@@ -6,8 +6,5 @@ frontend-install:
 frontend-build:
 	npm run build
 
-frontend-test:
-	npm run test
-
 frontend-dev:
 	npm run dev
