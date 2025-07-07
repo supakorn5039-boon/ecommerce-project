@@ -26,21 +26,18 @@ func main() {
 
 	dsn := fmt.Sprintf("host=%s port=%d user=%s password=%s dbname=%s sslmode=disable TimeZone=Asia/Bangkok", host, port, user, password, dbName)
 
-	var err error
-
 	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
-
 	if err != nil {
 		log.Fatalf("failed to connect database: %v", err)
 	}
 
-	err = db.Migrator().DropTable(&models.User{})
+	err = db.Migrator().DropTable(&models.User{}, &models.Product{})
 	if err != nil {
-		log.Fatalf("failed to drop table: %v", err)
+		log.Fatalf("failed to drop tables: %v", err)
 	}
 
-	if err = db.AutoMigrate(&models.User{}); err != nil {
-		log.Fatalf("failed to migrate table: %v", err)
+	if err = db.AutoMigrate(&models.User{}, &models.Product{}); err != nil {
+		log.Fatalf("failed to migrate tables: %v", err)
 	}
 
 	log.Println("Migration successfully!")
@@ -58,8 +55,24 @@ func main() {
 		},
 	}
 
-	db.Create(&mockupUser)
+	if err := db.Create(&mockupUser).Error; err != nil {
+		log.Fatalf("failed to seed users: %v", err)
+	}
+
+	mockupProduct := []models.Product{
+		{
+			Name:        "Product 1",
+			Description: "Description 1",
+			Price:       100.00,
+			Stock:       10,
+			Image:       "https://example.com/image1.jpg",
+			Category:    "Category 1",
+		},
+	}
+
+	if err := db.Create(&mockupProduct).Error; err != nil {
+		log.Fatalf("failed to seed products: %v", err)
+	}
 
 	log.Println("Database seeding completed successfully!")
-
 }

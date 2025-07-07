@@ -1,6 +1,8 @@
-export default function IconStore() {
+import type { IconProps } from '@/types/Components';
+
+export default function IconStore({ className }: IconProps) {
   return (
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" className={className}>
       <g id="Store">
         <path d="M41 5v2H7V5a4 4 0 0 1 4-4h26a4 4 0 0 1 4 4z" style={{ fill: '#6fabe6' }} />
         <path d="M41 5v1H17c0-2-.24-3.6 1.36-5H37a4 4 0 0 1 4 4z" style={{ fill: '#82bcf4' }} />

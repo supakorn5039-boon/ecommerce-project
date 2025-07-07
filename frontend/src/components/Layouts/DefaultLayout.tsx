@@ -1,44 +1,41 @@
-import { ROUTES } from '@/constants/RouteConst';
 import Cookie from 'js-cookie';
 import { PropsWithChildren, Suspense, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
+import { ROUTES } from '@/constants/RouteConst';
+import { IRootState } from '@/store';
+
 import App from '../../App';
 import Portals from '../../components/Portals';
-import { IRootState } from '../../store';
 import Footer from './Footer';
 import Header from './Header';
-import Sidebar from './Sidebar';
 
 const DefaultLayout = ({ children }: PropsWithChildren) => {
-  const themeConfig = useSelector((state: IRootState) => state.themeConfig);
   const navigate = useNavigate();
+  const { navbar, animation } = useSelector((state: IRootState) => state.themeConfig);
 
-  const [isCheckingAuth, setIsCheckingAuth] = useState(true);
+  const [isAuthChecked, setIsAuthChecked] = useState(false);
 
   useEffect(() => {
     const token = Cookie.get('token');
     if (!token) {
       navigate(ROUTES.LOGIN, { replace: true });
     } else {
-      setIsCheckingAuth(false);
+      setIsAuthChecked(true);
     }
   }, [navigate]);
 
-  if (isCheckingAuth) {
-    return null;
-  }
+  if (!isAuthChecked) return null;
 
   return (
     <App>
       <div className="relative">
-        <div className={`${themeConfig.navbar} main-container text-black dark:text-white-dark min-h-screen`}>
-          <Sidebar />
-          <div className="main-content flex flex-col min-h-screen">
+        <div className={`${navbar} main-container text-black dark:text-white-dark min-h-screen`}>
+          <div className={`flex flex-col min-h-screen `}>
             <Header />
             <Suspense>
-              <div className={`${themeConfig.animation} p-6 animate__animated`}>{children}</div>
+              <div className={`${animation} p-6 animate__animated`}>{children}</div>
             </Suspense>
             <Footer />
             <Portals />

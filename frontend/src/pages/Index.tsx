@@ -1,10 +1,8 @@
-const Index = () => {
+import { ROUTES } from '@/constants/RouteConst';
+import { Navigate } from 'react-router-dom';
 
-    return (
-        <div>
-            <h1>starter page</h1>
-        </div>
-    );
+const Index = () => {
+  return <Navigate to={ROUTES.HOME} />;
 };
 
 export default Index;

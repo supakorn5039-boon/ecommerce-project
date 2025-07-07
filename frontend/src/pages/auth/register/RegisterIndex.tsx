@@ -2,6 +2,7 @@ import ButtonCustom from '@/components/button/ButtonCustom';
 import FormInputField from '@/components/Input/FormInputField';
 import { showErrorToast, showSuccessToast } from '@/components/Toast/Toast';
 import { CredentialService } from '@/services/Credential.service';
+import { useUserStore } from '@/store/features/user/useUserStore';
 import type { CredentialProps } from '@/types/Credential';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import type { AxiosError } from 'axios';
@@ -21,6 +22,9 @@ export default function RegisterIndex() {
       const { token } = data;
 
       Cookie.set('token', token!, { expires: 1 });
+
+      useUserStore.getState().setUser({ username: data.user?.username, role: data.user?.role });
+
       queryClient.invalidateQueries({ queryKey: [CredentialService.QUERY_KEY] });
       navigate('/');
       showSuccessToast('สมัครสมาชิกสำเร็จ');

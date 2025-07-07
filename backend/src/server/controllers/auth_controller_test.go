@@ -12,17 +12,19 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/stretchr/testify/assert"
-	"gorm.io/driver/sqlite"
+	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 )
 
 func setupTestDB() *gorm.DB {
-	db, err := gorm.Open(sqlite.Open("file::memory:?cache=shared"), &gorm.Config{})
+	dsn := "host=localhost port=5432 user=username password=password dbname=ecommerce sslmode=disable TimeZone=Asia/Bangkok"
+
+	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
 	if err != nil {
 		panic("failed to connect to test database")
 	}
-	err = db.AutoMigrate(&models.User{})
-	if err != nil {
+	db.Exec("DROP TABLE IF EXISTS users CASCADE")
+	if err := db.AutoMigrate(&models.User{}); err != nil {
 		panic("failed to migrate test database")
 	}
 	services.SetTestDB(db)

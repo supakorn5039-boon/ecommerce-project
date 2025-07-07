@@ -6,12 +6,10 @@ type FormInputFieldProps = {
   type: string;
   name: string;
   placeholder?: string;
-  error?: FieldError | undefined;
+  error?: FieldError;
   icon?: React.ReactNode;
   register: UseFormRegisterReturn;
-  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  value?: string;
-};
+} & React.InputHTMLAttributes<HTMLInputElement>;
 
 export default function FormInputField({
   label,
@@ -21,8 +19,7 @@ export default function FormInputField({
   error,
   icon,
   register,
-  onChange,
-  value,
+  ...rest
 }: FormInputFieldProps): React.ReactElement {
   return (
     <div className="w-full">
@@ -31,24 +28,16 @@ export default function FormInputField({
       </label>
       <div className="relative">
         <div
-          className={`
-          flex items-center rounded-lg border px-4 py-2
-          ${error ? 'border-red-500' : 'border-gray-300'}
-          
-        `}
+          className={`flex items-center rounded-lg border px-4 py-2 ${error ? 'border-red-500' : 'border-gray-300'}`}
         >
           {icon && <div className="text-gray-400 mr-2">{icon}</div>}
           <input
             id={name}
             {...register}
             type={type}
-            value={value}
-            onChange={onChange}
             placeholder={placeholder}
-            className="
-            w-full bg-transparent outline-none text-sm text-gray-900
-            placeholder:text-gray-400
-            focus:ring-0"
+            {...rest}
+            className="w-full bg-transparent outline-none text-sm text-gray-900 placeholder:text-gray-400 focus:ring-0"
           />
         </div>
         {error && <p className="text-xs text-red-500 mt-1">{error.message}</p>}

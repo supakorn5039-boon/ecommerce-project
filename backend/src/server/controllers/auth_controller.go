@@ -33,7 +33,7 @@ func login(c *gin.Context) {
 		return
 	}
 
-	utils.SuccessRespoinse(c, gin.H{
+	utils.SuccessResponse(c, gin.H{
 		"user": user, "token": token,
 	})
 

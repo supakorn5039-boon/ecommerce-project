@@ -13,3 +13,13 @@ type CredentialRequest struct {
 	Username string `json:"username"`
 	Password string `json:"password"`
 }
+
+type Product struct {
+	gorm.Model
+	Name        string  `gorm:"not null"`
+	Description string  `gorm:"not null"`
+	Price       float64 `gorm:"not null"`
+	Stock       int     `gorm:"not null"`
+	Image       string  `gorm:"not null"`
+	Category    string  `gorm:"not null"`
+}
