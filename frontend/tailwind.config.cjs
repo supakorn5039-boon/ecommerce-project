@@ -82,6 +82,8 @@ module.exports = {
       }),
       animation: {
         gradient: 'gradientBG 4s ease infinite',
+        'slide-in-down': 'slideInDown 0.6s ease-out',
+        'fade-in': 'fadeIn 0.4s ease-in-out',
       },
       keyframes: {
         gradientBG: {
@@ -91,6 +93,20 @@ module.exports = {
           '50%': {
             backgroundPosition: '100% 50%',
           },
+        },
+        slideInDown: {
+          '0%': {
+            transform: 'translateY(-100%)',
+            opacity: '0',
+          },
+          '100%': {
+            transform: 'translateY(0)',
+            opacity: '1',
+          },
+        },
+        fadeIn: {
+          '0%': { opacity: '0' },
+          '100%': { opacity: '1' },
         },
       },
     },

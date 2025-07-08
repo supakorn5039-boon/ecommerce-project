@@ -1,3 +1,4 @@
+import { ROUTES } from '@/constants/RouteConst';
 import { useUserStore } from '@/store/features/user/useUserStore';
 import Cookie from 'js-cookie';
 import { useEffect } from 'react';
@@ -32,7 +33,7 @@ const Header = () => {
   }, [location.pathname]);
 
   return (
-    <header className="z-40 bg-white shadow-md dark:bg-gray-900">
+    <header className="z-40 bg-white shadow-md dark:bg-gray-900 animate-slide-in-down transition duration-700">
       <div className="flex items-center justify-between px-6 py-4">
         <Link to="/" className="text-2xl flex space-x-4 font-bold text-primary">
           <img src="assets/images/ecom/logo.png" alt="logo" className="size-8" />
@@ -42,23 +43,29 @@ const Header = () => {
         </Link>
 
         <nav className="hidden lg:flex gap-6 text-sm font-medium text-gray-700 dark:text-white">
-          <Link to="/" className={location.pathname === '/' ? 'text-primary' : 'hover:text-primary'}>
-            Home
-          </Link>
-          <Link to="/shop" className={location.pathname === '/shop' ? 'text-primary' : 'hover:text-primary'}>
-            Shop
-          </Link>
-          <Link to="/about" className={location.pathname === '/about' ? 'text-primary' : 'hover:text-primary'}>
-            About
-          </Link>
-          <Link to="/contact" className={location.pathname === '/contact' ? 'text-primary' : 'hover:text-primary'}>
-            Contact
-          </Link>
+          {[ROUTES.HOME, ROUTES.SHOP, ROUTES.ABOUT, ROUTES.CONTACT].map((path, idx) => {
+            const names = ['Home', 'Shop', 'About', 'Contact'];
+            const isActive = location.pathname === path;
+            return (
+              <Link
+                key={path}
+                to={path}
+                className={`
+                  relative transition duration-300
+                  ${isActive ? 'text-primary' : 'hover:text-primary'}
+                  after:content-[''] after:absolute after:w-0 after:h-[2px] after:bg-primary after:left-0 after:-bottom-1 
+                  hover:after:w-full after:transition-all after:duration-300
+                `}
+              >
+                {names[idx]}
+              </Link>
+            );
+          })}
         </nav>
 
         <div className="flex items-center gap-4">
           <div className="hidden md:flex flex-col text-right">
-            <p className="text-sm font-semibold text-gray-800 dark:text-white">{username}</p>
+            <p className="text-sm font-semibold text-gray-800 dark:text-white capitalize">{username}</p>
             <span className="text-xs text-gray-500 dark:text-gray-400 capitalize">{role}</span>
           </div>
 
@@ -68,19 +75,19 @@ const Header = () => {
             btnClassName="relative group block"
             button={
               <img
-                className="size-9 rounded-full object-cover border-2 border-gray-200 dark:border-gray-600"
+                className="size-9 rounded-full object-cover border-2 border-gray-200 dark:border-gray-600 transition-transform duration-300 hover:scale-105"
                 src="/assets/images/profile-34.jpeg"
                 alt="user"
               />
             }
           >
-            <ul className="text-dark !py-0 w-[230px] font-semibold">
+            <ul className="text-dark !py-0 w-[230px] font-semibold border border-gray-200 rounded-lg mt-2 bg-white dark:bg-gray-800 shadow-lg animate-fade-in">
               <li>
                 <div className="flex items-center px-4 py-4">
                   <img className="rounded-md w-10 h-10 object-cover" src="/assets/images/profile-34.jpeg" alt="userProfile" />
                   <div className="ltr:pl-4 rtl:pr-4 truncate">
-                    <h4 className="text-base">{username}</h4>
-                    <p className="text-black/60">Role: {role}</p>
+                    <h4 className="text-base capitalize">{username}</h4>
+                    <p className="text-black/60 dark:text-white/60 capitalize">Role: {role}</p>
                   </div>
                 </div>
               </li>
