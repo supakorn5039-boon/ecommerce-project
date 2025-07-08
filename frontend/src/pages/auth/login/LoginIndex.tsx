@@ -27,8 +27,8 @@ export default function LoginIndex() {
       navigate('/');
       showSuccessToast('เข้าสู่ระบบสําเร็จ');
     },
-    onError: (error: AxiosError<{ message: string }>) => {
-      const msg = error.response?.data.message ?? 'Login Fail !';
+    onError: (error: AxiosError<{ error: string }>) => {
+      const msg = error.response?.data.error ?? 'Login Fail !';
       showErrorToast(msg);
     },
   });
@@ -45,20 +45,8 @@ export default function LoginIndex() {
       >
         <h2 className="text-2xl font-bold text-center text-gray-800 dark:text-white">เข้าสู่ระบบ</h2>
 
-        <FormInputField
-          label="Username"
-          name="username"
-          type="text"
-          register={register('username')}
-          error={formState.errors.username}
-        />
-        <FormInputField
-          label="Password"
-          name="password"
-          type="password"
-          register={register('password')}
-          error={formState.errors.password}
-        />
+        <FormInputField label="Username" name="username" type="text" register={register('username')} error={formState.errors.username} />
+        <FormInputField label="Password" name="password" type="password" register={register('password')} error={formState.errors.password} />
         <ButtonCustom
           BoxClass="flex justify-center"
           label="เข้าสู่ระบบ"

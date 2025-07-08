@@ -42,7 +42,7 @@ func main() {
 
 	log.Println("Migration successfully!")
 
-	hashedPassword, err := security.HashPassword("password")
+	hashedPassword, err := security.HashPassword("L64di")
 	if err != nil {
 		log.Fatalf("failed to hash password: %v", err)
 	}

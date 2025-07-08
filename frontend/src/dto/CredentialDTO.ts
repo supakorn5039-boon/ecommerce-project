@@ -10,8 +10,9 @@ const CredentialSchema = z.object({
 export type CredentialSchemaProps = z.infer<typeof CredentialSchema>;
 
 export const CredentialDefaultValue: CredentialSchemaProps = {
-  username: '',
-  password: '',
+  //! Test
+  username: 'username',
+  password: 'L64di',
 };
 
 export const CredentialResolver: Resolver<CredentialSchemaProps> = zodResolver(CredentialSchema);
