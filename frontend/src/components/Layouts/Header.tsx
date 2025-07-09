@@ -3,13 +3,12 @@ import { useUserStore } from '@/store/features/user/useUserStore';
 import Cookie from 'js-cookie';
 import { useEffect } from 'react';
 import { CiLogout } from 'react-icons/ci';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import type { IRootState } from '../../store';
 import Dropdown from '../Dropdown';
 
 const Header = () => {
-  const dispatch = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();
   const username = useUserStore((state) => state.username);
@@ -21,6 +20,7 @@ const Header = () => {
     Cookie.remove('role');
     useUserStore.getState().clearUser();
     navigate('/login');
+    window.location.reload();
   };
 
   useEffect(() => {
@@ -97,7 +97,7 @@ const Header = () => {
                   onClick={handleLogout}
                   className="text-danger flex items-center w-full px-4 py-3 hover:bg-gray-100 dark:hover:bg-gray-700"
                 >
-                  <CiLogout className="w-5 h-5 ltr:mr-2 rtl:ml-2 shrink-0" />
+                  <CiLogout className="size-5 ltr:mr-2 rtl:ml-2 shrink-0" />
                   Sign Out
                 </button>
               </li>
