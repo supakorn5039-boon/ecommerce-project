@@ -5,4 +5,6 @@ export const ROUTES = {
   SHOP: '/shop',
   ABOUT: '/about',
   CONTACT: '/contact',
+  UNAUTHORIZED: '/unauthorized',
+  ADMIN: '/admin',
 };

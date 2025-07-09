@@ -1,6 +1,7 @@
 import ButtonCustom from '@/components/button/ButtonCustom';
 import FormInputField from '@/components/Input/FormInputField';
 import { showErrorToast, showSuccessToast } from '@/components/Toast/Toast';
+import { ROUTES } from '@/constants/RouteConst';
 import { CredentialService } from '@/services/Credential.service';
 import { useUserStore } from '@/store/features/user/useUserStore';
 import type { CredentialProps } from '@/types/Credential';
@@ -18,14 +19,16 @@ export default function LoginIndex() {
     mutationFn: CredentialService.Login,
     onSuccess: (data) => {
       const { token, user } = data;
-
       Cookie.set('token', token!, { expires: 1 });
 
-      useUserStore.getState().setUser({ username: user?.username, role: user?.role });
+      useUserStore.getState().setUser({
+        username: user?.username ?? '',
+        role: user?.role ?? '',
+      });
 
       queryClient.invalidateQueries({ queryKey: [CredentialService.QUERY_KEY] });
-      navigate('/');
       showSuccessToast('เข้าสู่ระบบสําเร็จ');
+      navigate(ROUTES.HOME);
     },
     onError: (error: AxiosError<{ error: string }>) => {
       const msg = error.response?.data.error ?? 'Login Fail !';
