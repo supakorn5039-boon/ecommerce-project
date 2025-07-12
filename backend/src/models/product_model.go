@@ -9,6 +9,17 @@ type ProductDto struct {
 	Category    string  `json:"category"`
 }
 
+func categoryIntToName(id int) string {
+	switch id {
+	case 1:
+		return "coffee"
+	case 2:
+		return "non-coffee"
+	default:
+		return "coffee"
+	}
+}
+
 func (p *Product) ToDto() ProductDto {
 	return ProductDto{
 		Name:        p.Name,
@@ -16,6 +27,6 @@ func (p *Product) ToDto() ProductDto {
 		Price:       p.Price,
 		Stock:       p.Stock,
 		Image:       p.Image,
-		Category:    p.Category,
+		Category:    categoryIntToName(p.Category),
 	}
 }

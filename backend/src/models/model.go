@@ -1,6 +1,8 @@
 package models
 
-import "gorm.io/gorm"
+import (
+	"gorm.io/gorm"
+)
 
 type User struct {
 	gorm.Model
@@ -21,5 +23,5 @@ type Product struct {
 	Price       float64 `gorm:"not null"`
 	Stock       int     `gorm:"not null"`
 	Image       string  `gorm:"not null"`
-	Category    string  `gorm:"not null"`
+	Category    int     `gorm:"not null"`
 }

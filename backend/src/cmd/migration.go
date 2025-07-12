@@ -61,12 +61,12 @@ func main() {
 
 	mockupProduct := []models.Product{
 		{
-			Name:        "Product 1",
-			Description: "Description 1",
-			Price:       100.00,
+			Name:        "Latte Macchiato",
+			Description: "A classic coffee drink made with espresso and steamed milk.",
+			Price:       70,
 			Stock:       10,
 			Image:       "https://example.com/image1.jpg",
-			Category:    "Category 1",
+			Category:    1,
 		},
 	}
 
