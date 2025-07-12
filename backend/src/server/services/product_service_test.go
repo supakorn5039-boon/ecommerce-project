@@ -34,7 +34,7 @@ func TestProductService_CRUD(t *testing.T) {
 		Price:       9.99,
 		Stock:       10,
 		Image:       "test.jpg",
-		Category:    "TestCat",
+		Category:    1,
 	}
 	created, err := service.CreateProduct(product)
 	assert.NoError(t, err)

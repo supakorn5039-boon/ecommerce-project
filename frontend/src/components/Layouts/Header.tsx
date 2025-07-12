@@ -36,10 +36,8 @@ const Header = () => {
     <header className="z-40 bg-white shadow-md dark:bg-gray-900 animate-slide-in-down transition duration-700">
       <div className="flex items-center justify-between px-6 py-4">
         <Link to="/" className="text-2xl flex space-x-4 font-bold text-primary">
-          <img src="assets/images/ecom/logo.png" alt="logo" className="size-8" />
-          <p className="text-transparent bg-clip-text bg-gradient-to-r from-red-400 to-violet-400 bg-[length:200%_200%] animate-gradient">
-            Shop Mall
-          </p>
+          <img src="assets/images/ecom/coffee-shop.png" alt="logo" className="size-8" />
+          <p className="text-transparent bg-clip-text bg-gradient-to-r from-red-400 to-violet-400 bg-[length:200%_200%] animate-gradient">Café</p>
         </Link>
 
         <nav className="hidden lg:flex gap-6 text-sm font-medium text-gray-700 dark:text-white">

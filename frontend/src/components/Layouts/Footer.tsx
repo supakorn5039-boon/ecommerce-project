@@ -6,7 +6,7 @@ const Footer = () => {
     <footer className="bg-gray-100 dark:bg-gray-900 text-gray-700 dark:text-white pt-12 px-4 md:px-8 lg:px-16">
       <div className="grid grid-cols-1 md:grid-cols-4 gap-8 pb-12 border-b border-gray-300 dark:border-gray-700">
         <div>
-          <h3 className="text-xl font-semibold mb-4 text-black dark:text-white">Shop Mall</h3>
+          <h3 className="text-xl font-semibold mb-4 text-black dark:text-white">Café</h3>
           <p className="text-sm text-gray-600 dark:text-gray-400">Discover quality furniture and decor to elevate your living space.</p>
         </div>
 
@@ -14,23 +14,13 @@ const Footer = () => {
           <h4 className="font-semibold mb-3">Shop</h4>
           <ul className="space-y-2 text-sm">
             <li>
-              <Link to="/category/furniture" className="hover:text-primary">
-                Furniture
+              <Link to="/category/coffee" className="hover:text-primary">
+                Coffee
               </Link>
             </li>
             <li>
-              <Link to="/category/lighting" className="hover:text-primary">
-                Lighting
-              </Link>
-            </li>
-            <li>
-              <Link to="/category/decor" className="hover:text-primary">
-                Decor
-              </Link>
-            </li>
-            <li>
-              <Link to="/category/rugs" className="hover:text-primary">
-                Rugs
+              <Link to="/category/non-coffee" className="hover:text-primary">
+                Non Coffee
               </Link>
             </li>
           </ul>
@@ -47,11 +37,6 @@ const Footer = () => {
             <li>
               <Link to="/contact" className="hover:text-primary">
                 Contact
-              </Link>
-            </li>
-            <li>
-              <Link to="/faq" className="hover:text-primary">
-                FAQ
               </Link>
             </li>
           </ul>
