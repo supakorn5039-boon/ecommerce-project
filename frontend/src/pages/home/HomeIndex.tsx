@@ -14,7 +14,7 @@ export default function HomeIndex() {
             </h1>
             <p className="text-gray-600 text-lg max-w-md">Indulge in our premium coffee blends and discover a world of rich flavors and aromas.</p>
             <Link to="/shop" className="inline-block bg-black text-white px-6 py-3 rounded-md hover:bg-gray-800 transition">
-              View Menu
+              View Shop
             </Link>
           </div>
           <div className="md:w-1/3">
@@ -23,7 +23,6 @@ export default function HomeIndex() {
         </section>
       </AnimatedOnScrollCard>
 
-      {/* Categories Section */}
       <AnimatedOnScrollCard>
         <section>
           <h2 className="text-2xl font-semibold text-gray-900 text-center mb-12">Coffee Shop</h2>
@@ -35,11 +34,11 @@ export default function HomeIndex() {
               { name: 'Chocolate', image: '/assets/images/cafe/chocolate.jpeg' },
             ].map((cat, index) => (
               <AnimatedOnScrollCard key={cat.name} delay={index * 0.1}>
-                <Link to={`/category/${cat.name.toLowerCase()}`} className="group text-center">
+                <Link to={`/category/${cat.name.toLowerCase()}`} className="text-center">
                   <div className="w-full aspect-square bg-gray-100 rounded-xl overflow-hidden mb-4">
                     <img src={cat.image} alt={cat.name} className="size-full object-cover group-hover:scale-105 transition" />
                   </div>
-                  <p className="text-sm text-gray-700 font-medium group-hover:text-black transition">{cat.name}</p>
+                  <p className="text-base text-gray-700 font-mediu">{cat.name}</p>
                 </Link>
               </AnimatedOnScrollCard>
             ))}

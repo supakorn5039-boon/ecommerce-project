@@ -29,11 +29,11 @@ func ApplyRoutes(router *gin.Engine) {
 		product.Use(middleware.Protected())
 		pc := &ProductController{service: services.NewProductService()}
 		{
-			product.GET("/", pc.GetAllProducts)
-			product.GET("/:id", pc.GetProductByID)
-			product.POST("/", pc.CreateProduct)
-			product.PUT("/:id", pc.UpdateProduct)
-			product.DELETE("/:id", pc.DeleteProduct)
+			product.GET("", pc.getAllProducts)
+			product.GET("/:id", pc.getProductByID)
+			product.POST("", pc.createProduct)
+			product.PUT("/:id", pc.updateProduct)
+			product.DELETE("/:id", pc.deleteProduct)
 
 		}
 

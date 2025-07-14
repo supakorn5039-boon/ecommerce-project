@@ -2,7 +2,6 @@ package server
 
 import (
 	"ecommerce/backend/src/models"
-
 	"ecommerce/backend/src/server/controllers"
 	"fmt"
 
@@ -10,7 +9,6 @@ import (
 )
 
 func WebServer(config models.ServerConfig) {
-
 	if config.Production {
 		gin.SetMode(gin.ReleaseMode)
 	}
@@ -25,5 +23,4 @@ func WebServer(config models.ServerConfig) {
 	if err != nil {
 		panic(err)
 	}
-
 }

@@ -1,4 +1,5 @@
 import { ROUTES } from '@/constants/RouteConst';
+import ShopDetail from '@/pages/shop/ShopDetail';
 
 import type { TypeRoutes } from '@/types/Components';
 import { lazy } from 'react';
@@ -23,6 +24,12 @@ export const routes: TypeRoutes[] = [
   {
     path: ROUTES.SHOP,
     element: <Shop />,
+    layout: 'default',
+    meta: { title: 'Shop' },
+  },
+  {
+    path: `${ROUTES.SHOP}/:id`,
+    element: <ShopDetail />,
     layout: 'default',
     meta: { title: 'Shop' },
   },
