@@ -41,7 +41,7 @@ func TestProductService_CRUD(t *testing.T) {
 	assert.Equal(t, "Test Product", created.Name)
 
 	// Get by ID
-	got, err := service.GetProductById(int(product.ID))
+	got, err := service.GetProductById(int(created.Id))
 	assert.NoError(t, err)
 	assert.Equal(t, "Test Product", got.Name)
 
@@ -52,13 +52,13 @@ func TestProductService_CRUD(t *testing.T) {
 
 	// Update
 	update := &models.Product{Description: "Updated desc", Price: 19.99}
-	updated, err := service.UpdateProduct(product.ID, update)
+	updated, err := service.UpdateProduct(uint(created.Id), update)
 	assert.NoError(t, err)
 	assert.Equal(t, "Updated desc", updated.Description)
 	assert.Equal(t, 19.99, updated.Price)
 
 	// Delete
-	err = service.DeleteProduct(product.ID)
+	err = service.DeleteProduct(uint(created.Id))
 	assert.NoError(t, err)
 	products, err = service.GetAllProducts()
 	assert.NoError(t, err)

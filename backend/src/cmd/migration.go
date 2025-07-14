@@ -61,11 +61,21 @@ func main() {
 
 	mockupProduct := []models.Product{
 		{
-			Name:        "Latte Macchiato",
-			Description: "A classic coffee drink made with espresso and steamed milk.",
+			Id:          1,
+			Name:        "Chocolate",
+			Description: "A Chocolate drink made with chocolate and cold water.",
 			Price:       70,
 			Stock:       10,
-			Image:       "https://example.com/image1.jpg",
+			Image:       "/assets/images/cafe/chocolate.jpeg",
+			Category:    2,
+		},
+		{
+			Id:          2,
+			Name:        "Americano",
+			Description: "A classic coffee drink made with espresso and hot water.",
+			Price:       60,
+			Stock:       5,
+			Image:       "/assets/images/cafe/americano.jpeg",
 			Category:    1,
 		},
 	}

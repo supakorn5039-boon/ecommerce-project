@@ -18,6 +18,7 @@ type CredentialRequest struct {
 
 type Product struct {
 	gorm.Model
+	Id          int     `gorm:"not null"`
 	Name        string  `gorm:"not null"`
 	Description string  `gorm:"not null"`
 	Price       float64 `gorm:"not null"`

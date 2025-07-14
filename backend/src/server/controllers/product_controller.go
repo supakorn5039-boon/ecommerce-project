@@ -18,7 +18,7 @@ func NewProductController(svc *services.ProductService) *ProductController {
 	return &ProductController{service: svc}
 }
 
-func (pc *ProductController) GetAllProducts(c *gin.Context) {
+func (pc *ProductController) getAllProducts(c *gin.Context) {
 	products, err := pc.service.GetAllProducts()
 	if err != nil {
 		utils.ErrorResponse(c, err.Error(), http.StatusInternalServerError)
@@ -27,7 +27,7 @@ func (pc *ProductController) GetAllProducts(c *gin.Context) {
 	utils.SuccessResponse(c, products)
 }
 
-func (pc *ProductController) GetProductByID(c *gin.Context) {
+func (pc *ProductController) getProductByID(c *gin.Context) {
 	idStr := c.Param("id")
 	id, err := strconv.Atoi(idStr)
 	if err != nil {
@@ -43,7 +43,7 @@ func (pc *ProductController) GetProductByID(c *gin.Context) {
 	utils.SuccessResponse(c, product)
 }
 
-func (pc *ProductController) CreateProduct(c *gin.Context) {
+func (pc *ProductController) createProduct(c *gin.Context) {
 	var input models.Product
 	if err := c.ShouldBindJSON(&input); err != nil {
 		utils.ErrorResponse(c, err.Error(), http.StatusBadRequest)
@@ -58,7 +58,7 @@ func (pc *ProductController) CreateProduct(c *gin.Context) {
 	utils.SuccessResponse(c, product)
 }
 
-func (pc *ProductController) UpdateProduct(c *gin.Context) {
+func (pc *ProductController) updateProduct(c *gin.Context) {
 	idStr := c.Param("id")
 	id, err := strconv.Atoi(idStr)
 	if err != nil {
@@ -80,7 +80,7 @@ func (pc *ProductController) UpdateProduct(c *gin.Context) {
 	utils.SuccessResponse(c, product)
 }
 
-func (pc *ProductController) DeleteProduct(c *gin.Context) {
+func (pc *ProductController) deleteProduct(c *gin.Context) {
 	idStr := c.Param("id")
 	id, err := strconv.Atoi(idStr)
 	if err != nil {
