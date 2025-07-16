@@ -1,12 +1,15 @@
 import { ROUTES } from '@/constants/RouteConst';
+import { useCartStore } from '@/store/features/cart/useCartStore';
 import { useUserStore } from '@/store/features/user/useUserStore';
 import Cookie from 'js-cookie';
 import { useEffect } from 'react';
 import { CiLogout } from 'react-icons/ci';
+import { FaShoppingCart } from 'react-icons/fa';
 import { useSelector } from 'react-redux';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import type { IRootState } from '../../store';
 import Dropdown from '../Dropdown';
+import CartDrawer from '../utils/CartDrawer';
 
 const Header = () => {
   const navigate = useNavigate();
@@ -14,6 +17,9 @@ const Header = () => {
   const username = useUserStore((state) => state.username);
   const role = useUserStore((state) => state.role);
   const isRtl = useSelector((state: IRootState) => state.themeConfig.rtlClass) === 'rtl';
+
+  const toggleCart = useCartStore((state) => state.toggleCart);
+  const cartItems = useCartStore((state) => state.items);
 
   const handleLogout = () => {
     Cookie.remove('token');
@@ -33,77 +39,88 @@ const Header = () => {
   }, [location.pathname]);
 
   return (
-    <header className="z-40 bg-white shadow-md dark:bg-gray-900 animate-slide-in-down transition duration-700">
-      <div className="flex items-center justify-between px-6 py-4">
-        <Link to="/" className="text-2xl flex space-x-4 font-bold text-primary">
-          <img src="assets/images/ecom/coffee-shop.png" alt="logo" className="size-8" />
-          <p className="text-transparent bg-clip-text bg-gradient-to-r from-red-400 to-violet-400 bg-[length:200%_200%] animate-gradient">Café</p>
-        </Link>
+    <>
+      <header className="z-40 bg-white shadow-md dark:bg-gray-900 animate-slide-in-down transition duration-700">
+        <div className="flex items-center justify-between px-6 py-4">
+          <Link to="/" className="text-2xl flex space-x-4 font-bold text-primary">
+            <img src="/assets/images/ecom/coffee-shop.png" alt="logo" className="size-8" />
+            <p className="text-transparent bg-clip-text bg-gradient-to-r from-red-400 to-violet-400 bg-[length:200%_200%] animate-gradient">Café</p>
+          </Link>
 
-        <nav className="hidden lg:flex gap-6 text-sm font-medium text-gray-700 dark:text-white">
-          {[ROUTES.HOME, ROUTES.SHOP, ROUTES.ABOUT, ROUTES.CONTACT].map((path, idx) => {
-            const names = ['Home', 'Shop', 'About', 'Contact'];
-            const isActive = location.pathname === path;
-            return (
-              <Link
-                key={path}
-                to={path}
-                className={`
-                  relative transition duration-300
-                  ${isActive ? 'text-primary' : 'hover:text-primary'}
-                  after:content-[''] after:absolute after:w-0 after:h-[2px] after:bg-primary after:left-0 after:-bottom-1 
-                  hover:after:w-full after:transition-all after:duration-300
-                `}
-              >
-                {names[idx]}
-              </Link>
-            );
-          })}
-        </nav>
-
-        <div className="flex items-center gap-4">
-          <div className="hidden md:flex flex-col text-right">
-            <p className="text-sm font-semibold text-gray-800 dark:text-white capitalize">{username}</p>
-            <span className="text-xs text-gray-500 dark:text-gray-400 capitalize">{role}</span>
-          </div>
-
-          <Dropdown
-            offset={[0, 8]}
-            placement={isRtl ? 'bottom-start' : 'bottom-end'}
-            btnClassName="relative group block"
-            button={
-              <img
-                className="size-9 rounded-full object-cover border-2 border-gray-200 dark:border-gray-600 transition-transform duration-300 hover:scale-105"
-                src="/assets/images/profile-34.jpeg"
-                alt="user"
-              />
-            }
-          >
-            <ul className="text-dark !py-0 w-[230px] font-semibold border border-gray-200 rounded-lg mt-2 bg-white dark:bg-gray-800 shadow-lg animate-fade-in">
-              <li>
-                <div className="flex items-center px-4 py-4">
-                  <img className="rounded-md w-10 h-10 object-cover" src="/assets/images/profile-34.jpeg" alt="userProfile" />
-                  <div className="ltr:pl-4 rtl:pr-4 truncate">
-                    <h4 className="text-base capitalize">{username}</h4>
-                    <p className="text-black/60 dark:text-white/60 capitalize">Role: {role}</p>
-                  </div>
-                </div>
-              </li>
-              <li className="border-t border-white-light">
-                <button
-                  type="button"
-                  onClick={handleLogout}
-                  className="text-danger flex items-center w-full px-4 py-3 hover:bg-gray-100 dark:hover:bg-gray-700"
+          <nav className="hidden lg:flex gap-6 text-sm font-medium text-gray-700 dark:text-white">
+            {[ROUTES.HOME, ROUTES.SHOP, ROUTES.ABOUT, ROUTES.CONTACT].map((path, idx) => {
+              const names = ['Home', 'Shop', 'About', 'Contact'];
+              const isActive = path === ROUTES.HOME ? location.pathname === path : location.pathname.startsWith(path);
+              return (
+                <Link
+                  key={path}
+                  to={path}
+                  className={`
+                    relative transition duration-300
+                    ${isActive ? 'text-primary' : 'hover:text-primary'}
+                    after:content-[''] after:absolute after:w-0 after:h-[2px] after:bg-primary after:left-0 after:-bottom-1 
+                    hover:after:w-full after:transition-all after:duration-300
+                  `}
                 >
-                  <CiLogout className="size-5 ltr:mr-2 rtl:ml-2 shrink-0" />
-                  Sign Out
-                </button>
-              </li>
-            </ul>
-          </Dropdown>
+                  {names[idx]}
+                </Link>
+              );
+            })}
+          </nav>
+
+          <div className="flex items-center gap-4">
+            <Link to="#" onClick={toggleCart} className="relative text-gray-700 dark:text-white hover:text-primary">
+              <FaShoppingCart className="text-xl" />
+              {cartItems.length > 0 && (
+                <span className="absolute -top-2 -right-2 text-xs bg-red-500 text-white rounded-full px-1">{cartItems.length}</span>
+              )}
+            </Link>
+
+            <div className="hidden md:flex flex-col text-right">
+              <p className="text-sm font-semibold text-gray-800 dark:text-white capitalize">{username}</p>
+              <span className="text-xs text-gray-500 dark:text-gray-400 capitalize">{role}</span>
+            </div>
+
+            <Dropdown
+              offset={[0, 8]}
+              placement={isRtl ? 'bottom-start' : 'bottom-end'}
+              btnClassName="relative group block"
+              button={
+                <img
+                  className="size-9 rounded-full object-cover border-2 border-gray-200 dark:border-gray-600 transition-transform duration-300 hover:scale-105"
+                  src="/assets/images/profile-34.jpeg"
+                  alt="user"
+                />
+              }
+            >
+              <ul className="text-dark !py-0 w-[230px] font-semibold border border-gray-200 rounded-lg mt-2 bg-white dark:bg-gray-800 shadow-lg animate-fade-in">
+                <li>
+                  <div className="flex items-center px-4 py-4">
+                    <img className="rounded-md w-10 h-10 object-cover" src="/assets/images/profile-34.jpeg" alt="userProfile" />
+                    <div className="ltr:pl-4 rtl:pr-4 truncate">
+                      <h4 className="text-base capitalize">{username}</h4>
+                      <p className="text-black/60 dark:text-white/60 capitalize">Role: {role}</p>
+                    </div>
+                  </div>
+                </li>
+                <li className="border-t border-white-light">
+                  <button
+                    type="button"
+                    onClick={handleLogout}
+                    className="text-danger flex items-center w-full px-4 py-3 hover:bg-gray-100 dark:hover:bg-gray-700"
+                  >
+                    <CiLogout className="size-5 ltr:mr-2 rtl:ml-2 shrink-0" />
+                    Sign Out
+                  </button>
+                </li>
+              </ul>
+            </Dropdown>
+          </div>
         </div>
-      </div>
-    </header>
+      </header>
+
+      <CartDrawer />
+    </>
   );
 };
 
