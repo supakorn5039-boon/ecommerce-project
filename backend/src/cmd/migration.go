@@ -61,7 +61,6 @@ func main() {
 
 	mockupProduct := []models.Product{
 		{
-			Id:          1,
 			Name:        "Chocolate",
 			Description: "A Chocolate drink made with chocolate and cold water.",
 			Price:       70,
@@ -70,7 +69,6 @@ func main() {
 			Category:    2,
 		},
 		{
-			Id:          2,
 			Name:        "Americano",
 			Description: "A classic coffee drink made with espresso and hot water.",
 			Price:       60,

@@ -1,9 +1,18 @@
-export type Products = {
+export type ProductsApiResponseProps = {
   id: number;
   name: string;
   description: string;
   price: number;
   stock: number;
   image: string;
-  category: number;
+  category: number | null;
+};
+
+export type ProductFormProps = {
+  name: string;
+  price: number;
+  description: string;
+  image: string;
+  stock: number;
+  category: number | null;
 };

@@ -47,20 +47,8 @@ export default function RegisterIndex() {
       >
         <h2 className="text-2xl font-bold text-center text-gray-800 dark:text-white mb-4">สมัครสมาชิก</h2>
 
-        <FormInputField
-          label="Username"
-          name="username"
-          type="text"
-          register={register('username')}
-          error={formState.errors.username}
-        />
-        <FormInputField
-          label="Password"
-          name="password"
-          type="password"
-          register={register('password')}
-          error={formState.errors.password}
-        />
+        <FormInputField label="Username" name="username" type="text" register={register('username')} error={formState.errors.username} />
+        <FormInputField label="Password" name="password" type="password" register={register('password')} error={formState.errors.password} />
         <ButtonCustom
           BoxClass="flex justify-center"
           label="สมัครสมาชิก"
