@@ -4,10 +4,10 @@ import Modal from '@/components/utils/Modal';
 import SearchBox from '@/components/utils/SearchBox';
 import { ProductCategoryName } from '@/constants/ProductConst';
 import { ROUTES } from '@/constants/RouteConst';
-import { ProductDefaultValue } from '@/dto/Product';
+import { ProductDefaultValue } from '@/dto/ProductDTO';
 import { ProductService } from '@/services/Product.service';
 import { useUserStore } from '@/store/features/user/useUserStore';
-import { ProductFormProps, ProductsApiResponseProps } from '@/types/Products';
+import { ProductFormProps, ProductsApiResponseProps, type ProductParams } from '@/types/Products';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import React, { useState } from 'react';
 import { FormProvider } from 'react-hook-form';
@@ -15,18 +15,17 @@ import { useNavigate } from 'react-router-dom';
 import ShopForm from './form/ShopForm';
 
 export default function ShopIndex(): React.ReactElement {
-  const [filter, setFilter] = useState({ seach: '' });
-  const [openModal, setOpenModal] = useState(false);
+  const [filter, setFilter] = useState<ProductParams>({ search: '' });
+  const [openModal, setOpenModal] = useState<boolean>(false);
   const form = ProductService.useProductForm(ProductDefaultValue);
   const queryClient = useQueryClient();
-  const { reset } = form;
 
   const { role } = useUserStore();
   const navigate = useNavigate();
 
   const { data: products, isLoading } = useQuery<ProductsApiResponseProps[]>({
-    queryKey: [ProductService.QUERY_KEY, filter.seach ?? ''],
-    queryFn: () => ProductService.getAllProducts({ search: filter.seach ?? '' }),
+    queryKey: [ProductService.QUERY_KEY, filter.search ?? ''],
+    queryFn: () => ProductService.getAllProducts({ search: filter.search ?? '' }),
   });
 
   const mutation = useMutation({
@@ -34,7 +33,7 @@ export default function ShopIndex(): React.ReactElement {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: [ProductService.QUERY_KEY] });
       setOpenModal(false);
-      reset();
+      form.reset();
     },
   });
 
@@ -54,7 +53,11 @@ export default function ShopIndex(): React.ReactElement {
       </div>
 
       <div className="my-8 flex justify-center">
-        <SearchBox size="max-w-xl" handleSearch={(e: React.ChangeEvent<HTMLInputElement>) => setFilter({ seach: e.target.value })} searchQuery="" />
+        <SearchBox
+          size="max-w-xl"
+          handleSearch={(e: React.ChangeEvent<HTMLInputElement>) => setFilter({ search: e.target.value })}
+          searchQuery={filter.search ?? ''}
+        />
       </div>
 
       {isLoading ? (
