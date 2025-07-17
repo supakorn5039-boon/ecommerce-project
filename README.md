@@ -11,16 +11,15 @@
 
 ### 🧠 Backend (Go + Gin + GORM)
 - [ ] Implement product filtering and search functionality
-- [ ] Add authentication middleware for protected routes
+- [x] Add authentication middleware for protected routes
 - [ ] Implement user roles (admin, customer)
 - [ ] Add order and cart models with associations
 - [ ] Create checkout API with basic payment simulation
-- [ ] Write unit tests for product and auth services
-- [ ] Add Swagger documentation for all endpoints
+- [x] Write unit tests for product and auth services
 
 ### 🎨 Frontend (React + Vite + Tailwind)
 - [ ] Build product listing with filter/search integration
-- [ ] Create protected routes for user dashboard
+- [x] Create protected routes for user dashboard
 - [ ] Add shopping cart with persistent state
 - [ ] Implement product detail and "Add to Cart" functionality
 - [ ] Build checkout form (shipping info, payment simulation)
@@ -28,8 +27,8 @@
 - [ ] Improve mobile responsiveness and UI polish
 
 ### 🛠 DevOps & Deployment
-- [ ] Dockerize frontend and backend
-- [ ] Setup CI/CD pipeline (GitHub Actions or GitLab CI)
+- [x] Dockerize frontend and backend
+- [x] Setup CI/CD pipeline (GitHub Actions or GitLab CI)
 - [ ] Deploy:
   - Frontend → [Vercel](https://vercel.com/)
   - Backend → [Render](https://render.com/) / [Fly.io](https://fly.io/)
