@@ -15,6 +15,22 @@ func NewProductService() *ProductService {
 	return &ProductService{db: database.Db}
 }
 
+func (p *ProductService) SearchProducts(query string) ([]*models.ProductDto, error) {
+	var products []models.Product
+
+	queryPattern := "%" + query + "%"
+	if err := p.db.Where("name ILIKE ?", queryPattern).Find(&products).Error; err != nil {
+		return nil, err
+	}
+
+	result := make([]*models.ProductDto, len(products))
+	for i, product := range products {
+		dto := product.ToDto()
+		result[i] = &dto
+	}
+	return result, nil
+}
+
 func (p *ProductService) CreateProduct(product *models.Product) (*models.ProductDto, error) {
 	if err := p.db.Create(product).Error; err != nil {
 		return nil, err

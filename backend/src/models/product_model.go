@@ -1,7 +1,7 @@
 package models
 
 type ProductDto struct {
-	Id          int     `json:"id"`
+	Id          uint    `json:"id"`
 	Name        string  `json:"name"`
 	Description string  `json:"description"`
 	Price       float64 `json:"price"`
@@ -12,7 +12,7 @@ type ProductDto struct {
 
 func (p *Product) ToDto() ProductDto {
 	return ProductDto{
-		Id:          p.Id,
+		Id:          p.ID,
 		Name:        p.Name,
 		Description: p.Description,
 		Price:       p.Price,

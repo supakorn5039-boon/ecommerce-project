@@ -44,7 +44,7 @@ export default function ShopDetail(): React.ReactElement {
                   product.category === 1 ? 'bg-yellow-300 text-yellow-900' : 'bg-gray-300 text-gray-800'
                 }`}
               >
-                {ProductCategoryName[product.category]}
+                {ProductCategoryName[product.category ?? 0]}
               </span>
 
               <p className="text-gray-700 dark:text-gray-300 text-lg leading-relaxed mb-4">{product.description}</p>

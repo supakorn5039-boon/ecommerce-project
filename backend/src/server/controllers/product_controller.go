@@ -19,12 +19,22 @@ func NewProductController(svc *services.ProductService) *ProductController {
 }
 
 func (pc *ProductController) getAllProducts(c *gin.Context) {
-	products, err := pc.service.GetAllProducts()
+	query := c.Query("search")
+
+	var products []*models.ProductDto
+	var err error
+
+	if query != "" {
+		products, err = pc.service.SearchProducts(query)
+	} else {
+		products, err = pc.service.GetAllProducts()
+	}
+
 	if err != nil {
 		utils.ErrorResponse(c, err.Error(), http.StatusInternalServerError)
 		return
 	}
-	utils.SuccessResponse(c, products)
+	c.JSON(http.StatusOK, products)
 }
 
 func (pc *ProductController) getProductByID(c *gin.Context) {
