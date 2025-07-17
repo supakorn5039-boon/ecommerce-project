@@ -32,9 +32,10 @@ backend/tmp/
 *.out
 *.test
 *.log
-*.mod
-*.sum
 */docker
+
+# Ignore checksum files except Go's go.sum
+!go.sum
 
 
 # Optional: OS or swap files
