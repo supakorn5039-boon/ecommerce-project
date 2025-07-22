@@ -10,6 +10,16 @@ type ProductDto struct {
 	Category    int     `json:"category"`
 }
 
+type CheckoutProduct struct {
+	ID       uint `json:"id"`
+	Quantity int  `json:"quantity"`
+}
+
+type CheckoutItems struct {
+	ID       uint
+	Quantity int
+}
+
 func (p *Product) ToDto() ProductDto {
 	return ProductDto{
 		Id:          p.ID,

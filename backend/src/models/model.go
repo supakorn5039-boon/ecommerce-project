@@ -1,8 +1,6 @@
 package models
 
 import (
-	"time"
-
 	"gorm.io/gorm"
 )
 
@@ -26,12 +24,4 @@ type Product struct {
 	Stock       int     `gorm:"not null"`
 	Image       string  `gorm:"not null"`
 	Category    int     `gorm:"not null"`
-}
-
-type Stock struct {
-	gorm.Model
-	ProductID uint      `json:"product_id"`
-	Quantity  int       `json:"quantity"`
-	Total     int       `json:"total"`
-	CreatedAt time.Time `json:"created_at"`
 }

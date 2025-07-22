@@ -8,6 +8,15 @@ export type ProductsApiResponseProps = {
   category: number | null;
 };
 
+export type CheckoutResponseProps = {
+  message: string;
+};
+
+export type CheckoutProps = {
+  id: number;
+  quantity: number;
+};
+
 export type ProductFormProps = {
   name: string;
   price: number;

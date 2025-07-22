@@ -34,9 +34,8 @@ func ApplyRoutes(router *gin.Engine) {
 			product.POST("", pc.createProduct)
 			product.PUT("/:id", pc.updateProduct)
 			product.DELETE("/:id", pc.deleteProduct)
+			product.POST("/checkout", pc.checkoutProducts)
 
 		}
-
 	}
-
 }

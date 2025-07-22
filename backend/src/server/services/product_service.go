@@ -3,6 +3,7 @@ package services
 import (
 	"ecommerce/backend/src/database"
 	"ecommerce/backend/src/models"
+	"fmt"
 
 	"gorm.io/gorm"
 )
@@ -82,5 +83,47 @@ func (p *ProductService) DeleteProduct(id uint) error {
 	if err := p.db.Delete(&models.Product{}, id).Error; err != nil {
 		return err
 	}
+	return nil
+}
+
+func (p *ProductService) CheckoutProducts(items []models.CheckoutProduct) error {
+
+	var ids []uint
+	for _, item := range items {
+		ids = append(ids, item.ID)
+	}
+
+	var products []models.Product
+	if err := p.db.Where("id IN ?", ids).Find(&products).Error; err != nil {
+		return err
+	}
+
+	productMap := make(map[uint]models.Product)
+	for _, product := range products {
+		productMap[product.ID] = product
+	}
+
+	for _, item := range items {
+		product, exists := productMap[item.ID]
+		if !exists {
+			return fmt.Errorf("product ID %d not found", item.ID)
+		}
+
+		if item.Quantity <= 0 {
+			return fmt.Errorf("invalid quantity for product ID %d", item.ID)
+		}
+
+		if product.Stock < item.Quantity {
+			return fmt.Errorf("not enough stock for product %s (available: %d, requested: %d)",
+				product.Name, product.Stock, item.Quantity)
+		}
+
+		product.Stock -= item.Quantity
+
+		if err := p.db.Save(product).Error; err != nil {
+			return err
+		}
+	}
+
 	return nil
 }
