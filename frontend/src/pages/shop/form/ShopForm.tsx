@@ -3,24 +3,26 @@ import FormInputField from '@/components/Input/FormInputField';
 import SelectInputField from '@/components/Input/SelectInputField';
 import { categoryOptions } from '@/constants/ProductConst';
 import type { ProductFormProps } from '@/types/Products';
-import type React from 'react';
+import React from 'react';
 import { useFormContext } from 'react-hook-form';
 
-type ShopFormProps = {
-  onSubmit: (values: ProductFormProps) => void;
-};
-
-export default function ShopForm({ onSubmit }: ShopFormProps): React.ReactElement {
+export default function ShopForm(): React.ReactElement {
   const {
     register,
-    handleSubmit,
     control,
     formState: { errors, isSubmitting },
   } = useFormContext<ProductFormProps>();
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-      <FormInputField label="Product Name" type="text" name="name" placeholder="Product Name" register={register('name')} error={errors.name} />
+    <React.Fragment>
+      <FormInputField
+        label="Product Name"
+        type="text"
+        name="name"
+        placeholder="Product Name"
+        register={register('name')}
+        error={errors.name}
+      />
 
       <FormInputField
         label="Description"
@@ -51,7 +53,14 @@ export default function ShopForm({ onSubmit }: ShopFormProps): React.ReactElemen
         />
       </div>
 
-      <FormInputField label="Image" type="text" name="image" placeholder="Image URL" register={register('image')} error={errors.image} />
+      <FormInputField
+        label="Image"
+        type="text"
+        name="image"
+        placeholder="Image URL"
+        register={register('image')}
+        error={errors.image}
+      />
 
       <SelectInputField
         name="category"
@@ -62,7 +71,13 @@ export default function ShopForm({ onSubmit }: ShopFormProps): React.ReactElemen
         defaultValue={null}
       />
 
-      <ButtonCustom isLoading={isSubmitting} type="submit" className="bg-black" label="Confirm" labelClassName="text-white" />
-    </form>
+      <ButtonCustom
+        isLoading={isSubmitting}
+        type="submit"
+        className="bg-black"
+        label="Confirm"
+        labelClassName="text-white"
+      />
+    </React.Fragment>
   );
 }

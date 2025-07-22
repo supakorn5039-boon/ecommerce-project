@@ -104,3 +104,28 @@ func (pc *ProductController) deleteProduct(c *gin.Context) {
 	}
 	utils.SuccessResponse(c, gin.H{"message": "Product deleted successfully"})
 }
+
+func (pc *ProductController) checkoutProducts(c *gin.Context) {
+	var req struct {
+		Items []models.CheckoutProduct `json:"items"`
+	}
+
+	if err := c.ShouldBindJSON(&req); err != nil {
+		utils.ErrorResponse(c, err.Error(), http.StatusBadRequest)
+		return
+	}
+
+	if len(req.Items) == 0 {
+		utils.ErrorResponse(c, "No items in the cart", http.StatusBadRequest)
+		return
+	}
+
+	err := pc.service.CheckoutProducts(req.Items)
+	if err != nil {
+		utils.ErrorResponse(c, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	utils.SuccessResponse(c, gin.H{"message": "Checkout successful!"})
+
+}

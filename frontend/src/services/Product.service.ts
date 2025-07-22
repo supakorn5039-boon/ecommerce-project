@@ -1,6 +1,12 @@
 import { API_ROUTES } from '@/constants/ApiConst';
-import { ProductDefaultValue, ProductResolver } from '@/dto/ProductDTO';
-import type { ProductFormProps, ProductParams, ProductsApiResponseProps } from '@/types/Products';
+import { ProductResolver } from '@/dto/ProductDTO';
+import type {
+  CheckoutProps,
+  CheckoutResponseProps,
+  ProductFormProps,
+  ProductParams,
+  ProductsApiResponseProps,
+} from '@/types/Products';
 import { fetchClient } from '@/utils/axios';
 import { useForm } from 'react-hook-form';
 
@@ -23,7 +29,7 @@ export const ProductService = {
   },
 
   updateProduct: async (id: number, data: ProductFormProps): Promise<ProductsApiResponseProps> => {
-    const res = await fetchClient.patch(`${API_ROUTES.PRODUCT}/${id}`, data);
+    const res = await fetchClient.put(`${API_ROUTES.PRODUCT}/${id}`, data);
     return res.data;
   },
 
@@ -32,7 +38,12 @@ export const ProductService = {
     return res.data;
   },
 
-  useProductForm: (initialFormData: ProductFormProps = ProductDefaultValue) => {
+  checkoutProduct: async (items: CheckoutProps[]): Promise<CheckoutResponseProps> => {
+    const res = await fetchClient.post(`${API_ROUTES.PRODUCT}/checkout`, { items });
+    return res.data;
+  },
+
+  useProductForm: (initialFormData: ProductFormProps) => {
     return useForm<ProductFormProps>({
       defaultValues: initialFormData,
       resolver: ProductResolver,
