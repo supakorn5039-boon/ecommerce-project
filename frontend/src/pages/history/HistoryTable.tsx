@@ -1,3 +1,4 @@
+import { ProductCategoryName } from '@/constants/ProductConst';
 import type { StockProps } from '@/types/Stock';
 import React from 'react';
 
@@ -33,7 +34,17 @@ export default function HistoryTable({ data }: HistoryTableProps) {
                   <td className="px-6 py-4 font-medium text-gray-900">{log.name}</td>
                   <td className="px-6 py-4">{log.quantity}</td>
                   <td className="px-6 py-4">{log.price.toFixed(2)} ฿</td>
-                  <td className="px-6 py-4">{log.category}</td>
+                  <td className="px-6 py-4">
+                    <span
+                      className={`inline-block px-4 py-1 rounded-full text-sm font-medium mb-4 ${
+                        log.category === 1
+                          ? 'bg-yellow-300 text-yellow-900'
+                          : 'bg-gray-300 text-gray-800'
+                      }`}
+                    >
+                      {ProductCategoryName[log.category ?? 0]}
+                    </span>
+                  </td>
                   <td className="px-6 py-4">
                     {new Date(log.date).toLocaleString('th-TH', {
                       dateStyle: 'medium',
