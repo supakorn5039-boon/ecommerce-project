@@ -11,37 +11,28 @@ type AppConfig struct {
 }
 
 func NewAppConfig() *AppConfig {
-	return &AppConfig{
-		Config: &models.Config{},
-	}
+	return &AppConfig{}
 }
 
 func (a *AppConfig) Load(path string) error {
-	cfg, err := ini.Load(path)
+	cfgFile, err := ini.Load(path)
 	if err != nil {
 		return err
 	}
 
-	serverSection := cfg.Section("server")
-	production := serverSection.Key("production").MustBool(false)
+	config := &models.Config{}
 
-	a.Config.Server.Port = serverSection.Key("port").MustInt(8080)
-	a.Config.Server.Production = production
-	a.Config.Production = production
-
-	// Load proper DB section
-	var dbSection *ini.Section
-	if production {
-		dbSection = cfg.Section("production")
-	} else {
-		dbSection = cfg.Section("development")
+	err = cfgFile.Section("server").MapTo(&config.Server)
+	if err != nil {
+		return err
 	}
 
-	a.Config.Database.Host = dbSection.Key("host").String()
-	a.Config.Database.Port = dbSection.Key("port").MustInt(5432)
-	a.Config.Database.User = dbSection.Key("user").String()
-	a.Config.Database.Password = dbSection.Key("password").String()
-	a.Config.Database.Name = dbSection.Key("name").String()
+	err = cfgFile.Section("database").MapTo(&config.Database)
+	if err != nil {
+		return err
+	}
+
+	a.Config = config
 
 	return nil
 }
