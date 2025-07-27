@@ -33,7 +33,7 @@ func (s *StockLogService) SearchStockLogs(query string) ([]*models.StockDto, err
 
 func (s *StockLogService) GetAllStockLogs() ([]*models.StockDto, error) {
 	var stockLogs []models.Stock
-	if err := s.db.Find(&stockLogs).Error; err != nil {
+	if err := s.db.Order("date DESC").Find(&stockLogs).Error; err != nil {
 		return nil, err
 	}
 
