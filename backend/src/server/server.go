@@ -4,7 +4,6 @@ import (
 	"ecommerce/backend/src/models"
 	"ecommerce/backend/src/server/controllers"
 	"fmt"
-	"os"
 
 	"github.com/gin-gonic/gin"
 )
@@ -20,7 +19,7 @@ func WebServer(config models.ServerConfig) {
 
 	controllers.ApplyRoutes(router)
 
-	port := os.Getenv("PORT")
+	port := "8080"
 	if port == "" {
 		port = fmt.Sprintf("%d", config.Port)
 	}
