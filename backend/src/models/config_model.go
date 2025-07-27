@@ -14,6 +14,7 @@ type DatabaseConfig struct {
 }
 
 type Config struct {
-	Server   ServerConfig   `ini:"server"`
-	Database DatabaseConfig `ini:"database"`
+	Server     ServerConfig   `ini:"server"`
+	Database   DatabaseConfig `ini:"database"`
+	Production bool
 }
