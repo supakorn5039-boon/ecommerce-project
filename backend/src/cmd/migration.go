@@ -6,6 +6,7 @@ import (
 	"ecommerce/backend/src/security"
 	"fmt"
 	"log"
+	"time"
 
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
@@ -36,7 +37,7 @@ func main() {
 		log.Fatalf("failed to drop tables: %v", err)
 	}
 
-	if err = db.AutoMigrate(&models.User{}, &models.Product{}); err != nil {
+	if err = db.AutoMigrate(&models.User{}, &models.Product{}, &models.Stock{}); err != nil {
 		log.Fatalf("failed to migrate tables: %v", err)
 	}
 
@@ -83,4 +84,21 @@ func main() {
 	}
 
 	log.Println("Database seeding completed successfully!")
+
+	mockupStockLogs := []models.Stock{
+		{
+			Name:     "Chocolate",
+			Quantity: 10,
+			Price:    70,
+			Category: 2,
+			Date:     time.Now(),
+		},
+	}
+
+	if err := db.Create(&mockupStockLogs).Error; err != nil {
+		log.Fatalf("failed to seed stock logs: %v", err)
+	}
+
+	log.Println("Stock log seeding completed successfully!")
+
 }

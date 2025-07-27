@@ -1,6 +1,8 @@
 package models
 
 import (
+	"time"
+
 	"gorm.io/gorm"
 )
 
@@ -24,4 +26,13 @@ type Product struct {
 	Stock       int     `gorm:"not null"`
 	Image       string  `gorm:"not null"`
 	Category    int     `gorm:"not null"`
+}
+
+type Stock struct {
+	gorm.Model
+	Name     string    `gorm:"not null"`
+	Quantity int       `gorm:"not null"`
+	Price    float64   `gorm:"not null"`
+	Category int       `gorm:"not null"`
+	Date     time.Time `gorm:"not null"`
 }
