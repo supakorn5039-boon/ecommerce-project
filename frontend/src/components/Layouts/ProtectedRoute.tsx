@@ -4,7 +4,7 @@ import { Navigate } from 'react-router-dom';
 
 interface ProtectedRouteProps {
   children: JSX.Element;
-  allowedRoles: string[];
+  allowedRoles: string | string[];
 }
 
 const ProtectedRoute = ({ children, allowedRoles }: ProtectedRouteProps) => {
@@ -17,7 +17,6 @@ const ProtectedRoute = ({ children, allowedRoles }: ProtectedRouteProps) => {
   if (!allowedRoles.includes(role)) {
     return <Navigate to={ROUTES.UNAUTHORIZED} replace />;
   }
-
   return children;
 };
 

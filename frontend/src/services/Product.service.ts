@@ -1,10 +1,10 @@
 import { API_ROUTES } from '@/constants/ApiConst';
 import { ProductResolver } from '@/dto/ProductDTO';
+import type { QueryParamsProps } from '@/types/Components';
 import type {
   CheckoutProps,
   CheckoutResponseProps,
   ProductFormProps,
-  ProductParams,
   ProductsApiResponseProps,
 } from '@/types/Products';
 import { fetchClient } from '@/utils/axios';
@@ -13,7 +13,7 @@ import { useForm } from 'react-hook-form';
 export const ProductService = {
   QUERY_KEY: 'product',
 
-  getAllProducts: async (params?: ProductParams): Promise<ProductsApiResponseProps[]> => {
+  getAllProducts: async (params?: QueryParamsProps): Promise<ProductsApiResponseProps[]> => {
     const res = await fetchClient.get(`${API_ROUTES.PRODUCT}`, { params });
     return res.data;
   },

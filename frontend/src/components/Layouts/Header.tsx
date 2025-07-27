@@ -5,6 +5,7 @@ import Cookie from 'js-cookie';
 import { useEffect } from 'react';
 import { CiLogout } from 'react-icons/ci';
 import { FaShoppingCart } from 'react-icons/fa';
+import { MdHistory } from 'react-icons/md';
 import { useSelector } from 'react-redux';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import type { IRootState } from '../../store';
@@ -44,13 +45,18 @@ const Header = () => {
         <div className="flex items-center justify-between px-6 py-4">
           <Link to="/" className="text-2xl flex space-x-4 font-bold text-primary">
             <img src="/assets/images/ecom/coffee-shop.png" alt="logo" className="size-8" />
-            <p className="text-transparent bg-clip-text bg-gradient-to-r from-red-400 to-violet-400 bg-[length:200%_200%] animate-gradient">Café</p>
+            <p className="text-transparent bg-clip-text bg-gradient-to-r from-red-400 to-violet-400 bg-[length:200%_200%] animate-gradient">
+              Café
+            </p>
           </Link>
 
           <nav className="hidden lg:flex gap-6 text-sm font-medium text-gray-700 dark:text-white">
             {[ROUTES.HOME, ROUTES.SHOP, ROUTES.ABOUT, ROUTES.CONTACT].map((path, idx) => {
               const names = ['Home', 'Shop', 'About', 'Contact'];
-              const isActive = path === ROUTES.HOME ? location.pathname === path : location.pathname.startsWith(path);
+              const isActive =
+                path === ROUTES.HOME
+                  ? location.pathname === path
+                  : location.pathname.startsWith(path);
               return (
                 <Link
                   key={path}
@@ -69,15 +75,23 @@ const Header = () => {
           </nav>
 
           <div className="flex items-center gap-4">
-            <Link to="#" onClick={toggleCart} className="relative text-gray-700 dark:text-white hover:text-primary">
+            <Link
+              to="#"
+              onClick={toggleCart}
+              className="relative text-gray-700 dark:text-white hover:text-primary"
+            >
               <FaShoppingCart className="text-xl" />
               {cartItems.length > 0 && (
-                <span className="absolute -top-2 -right-2 text-xs bg-red-500 text-white rounded-full px-1">{cartItems.length}</span>
+                <span className="absolute -top-2 -right-2 text-xs bg-red-500 text-white rounded-full px-1">
+                  {cartItems.length}
+                </span>
               )}
             </Link>
 
             <div className="hidden md:flex flex-col text-right">
-              <p className="text-sm font-semibold text-gray-800 dark:text-white capitalize">{username}</p>
+              <p className="text-sm font-semibold text-gray-800 dark:text-white capitalize">
+                {username}
+              </p>
               <span className="text-xs text-gray-500 dark:text-gray-400 capitalize">{role}</span>
             </div>
 
@@ -96,12 +110,30 @@ const Header = () => {
               <ul className="text-dark !py-0 w-[230px] font-semibold border border-gray-200 rounded-lg mt-2 bg-white dark:bg-gray-800 shadow-lg animate-fade-in">
                 <li>
                   <div className="flex items-center px-4 py-4">
-                    <img className="rounded-md w-10 h-10 object-cover" src="/assets/images/profile-34.jpeg" alt="userProfile" />
+                    <img
+                      className="rounded-md w-10 h-10 object-cover"
+                      src="/assets/images/profile-34.jpeg"
+                      alt="userProfile"
+                    />
                     <div className="ltr:pl-4 rtl:pr-4 truncate">
                       <h4 className="text-base capitalize">{username}</h4>
                       <p className="text-black/60 dark:text-white/60 capitalize">Role: {role}</p>
                     </div>
                   </div>
+                </li>
+                <li
+                  className={`border-t border-white-light ${
+                    role?.toLowerCase() === 'admin' ? '' : 'hidden'
+                  }`}
+                >
+                  <button
+                    type="button"
+                    onClick={() => navigate(ROUTES.HISTORY)}
+                    className="text-black flex items-center w-full px-4 py-3 hover:bg-gray-100 dark:hover:bg-gray-700"
+                  >
+                    <MdHistory className="size-5 ltr:mr-2 rtl:ml-2 shrink-0" />
+                    History Orders
+                  </button>
                 </li>
                 <li className="border-t border-white-light">
                   <button

@@ -5,6 +5,7 @@ export const ROUTES = {
   SHOP: '/shop',
   ABOUT: '/about',
   CONTACT: '/contact',
+  HISTORY: '/history',
   UNAUTHORIZED: '/unauthorized',
   ADMIN: '/admin',
 };

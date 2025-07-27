@@ -3,4 +3,5 @@ export const API_ROUTES = {
   REGISTER: '/api/auth/register',
   DASHBOARD: '/api/dashboard',
   PRODUCT: '/api/product',
+  STOCK: '/api/stock',
 };

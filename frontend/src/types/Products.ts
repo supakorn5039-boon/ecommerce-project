@@ -25,7 +25,3 @@ export type ProductFormProps = {
   stock: number;
   category: number | null;
 };
-
-export type ProductParams = {
-  search?: string;
-};

@@ -1,5 +1,7 @@
 import ButtonCustom from '@/components/button/ButtonCustom';
 import { SpinnerLoadingPulse } from '@/components/loading/SpinLoading';
+import { showSuccessToast } from '@/components/Toast/Toast';
+import DeleteConfirmationModal from '@/components/utils/DeleteConfirmModal';
 import Modal from '@/components/utils/Modal';
 import SearchBox from '@/components/utils/SearchBox';
 import { ProductCategoryName } from '@/constants/ProductConst';
@@ -7,21 +9,23 @@ import { ROUTES } from '@/constants/RouteConst';
 import { ProductDefaultValue } from '@/dto/ProductDTO';
 import { ProductService } from '@/services/Product.service';
 import { useUserStore } from '@/store/features/user/useUserStore';
-import type { ProductFormProps, ProductParams, ProductsApiResponseProps } from '@/types/Products';
+import type { QueryParamsProps } from '@/types/Components';
+import type { ProductFormProps, ProductsApiResponseProps } from '@/types/Products';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import React, { useCallback, useState } from 'react';
 import { FormProvider } from 'react-hook-form';
-import { FaRegEdit } from 'react-icons/fa';
+import { FaRegEdit, FaTrashAlt } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 import ShopForm from './form/ShopForm';
 
 export default function ShopIndex(): React.ReactElement {
-  const [filter, setFilter] = useState<ProductParams>({ search: '' });
+  const [filter, setFilter] = useState<QueryParamsProps>({ search: '' });
   const [openModal, setOpenModal] = useState(false);
+  const [openDeleteModal, setOpenDeleteModal] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState<ProductsApiResponseProps | null>(null);
+  const [productToDelete, setProductToDelete] = useState<ProductsApiResponseProps | null>(null);
 
   const form = ProductService.useProductForm(ProductDefaultValue);
-
   const queryClient = useQueryClient();
   const { role } = useUserStore();
   const navigate = useNavigate();
@@ -41,10 +45,21 @@ export default function ShopIndex(): React.ReactElement {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: [ProductService.QUERY_KEY] });
       setOpenModal(false);
+      showSuccessToast('บันทึกสินค้าสําเร็จ');
       setTimeout(() => {
         form.reset(ProductDefaultValue);
         setSelectedProduct(null);
       }, 300);
+    },
+  });
+
+  const deleteMutation = useMutation({
+    mutationFn: (id: number) => ProductService.deleteProduct(id),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: [ProductService.QUERY_KEY] });
+      showSuccessToast('ลบสินค้าสําเร็จ');
+      setOpenDeleteModal(false);
+      setProductToDelete(null);
     },
   });
 
@@ -64,6 +79,17 @@ export default function ShopIndex(): React.ReactElement {
     [form],
   );
 
+  const confirmDeleteProduct = (product: ProductsApiResponseProps) => {
+    setProductToDelete(product);
+    setOpenDeleteModal(true);
+  };
+
+  const handleDeleteConfirmed = () => {
+    if (productToDelete) {
+      deleteMutation.mutate(productToDelete.id);
+    }
+  };
+
   const handleSearchChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     setFilter({ search: e.target.value });
   }, []);
@@ -73,13 +99,11 @@ export default function ShopIndex(): React.ReactElement {
       <div className="flex items-center justify-between">
         <h1 className="text-3xl font-bold text-center">Our Coffee Shop Menu</h1>
         {role === 'admin' && (
-          <div className="flex justify-end">
-            <ButtonCustom
-              label="Create Product"
-              className="bg-black"
-              onClick={() => openFormModal()}
-            />
-          </div>
+          <ButtonCustom
+            label="Create Product"
+            className="bg-black"
+            onClick={() => openFormModal()}
+          />
         )}
       </div>
 
@@ -102,15 +126,27 @@ export default function ShopIndex(): React.ReactElement {
             >
               <img src={product.image} alt={product.name} className="w-full h-48 object-cover" />
               {role === 'admin' && (
-                <div
-                  className="absolute top-2 right-5 rounded-md bg-gray-300 p-2 cursor-pointer"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    openFormModal(product);
-                  }}
-                  title="Edit Product"
-                >
-                  <FaRegEdit color="#000" />
+                <div className="absolute top-2 right-2 flex gap-2">
+                  <button
+                    className="rounded-md bg-gray-300 p-2"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      openFormModal(product);
+                    }}
+                    title="Edit Product"
+                  >
+                    <FaRegEdit />
+                  </button>
+                  <button
+                    className="rounded-md bg-red-300 p-2"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      confirmDeleteProduct(product);
+                    }}
+                    title="Delete Product"
+                  >
+                    <FaTrashAlt />
+                  </button>
                 </div>
               )}
               <div
@@ -155,6 +191,16 @@ export default function ShopIndex(): React.ReactElement {
           </form>
         </FormProvider>
       </Modal>
+
+      <DeleteConfirmationModal
+        remove={false}
+        isOpen={openDeleteModal}
+        title="Confirm Delete"
+        message={`Are you sure you want to delete "${productToDelete?.name}"?`}
+        onCancel={() => setOpenDeleteModal(false)}
+        onConfirm={handleDeleteConfirmed}
+        loading={deleteMutation.isPending}
+      />
     </div>
   );
 }
