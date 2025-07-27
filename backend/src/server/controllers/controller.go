@@ -37,5 +37,12 @@ func ApplyRoutes(router *gin.Engine) {
 			product.POST("/checkout", pc.checkoutProducts)
 
 		}
+
+		stock := api.Group("/stock")
+		stock.Use(middleware.Protected())
+		sc := &StockController{service: services.NewStockLogService()}
+		{
+			stock.GET("", sc.getAllStockLogs)
+		}
 	}
 }

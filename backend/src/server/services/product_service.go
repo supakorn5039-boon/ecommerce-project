@@ -120,9 +120,22 @@ func (p *ProductService) CheckoutProducts(items []models.CheckoutProduct) error 
 
 		product.Stock -= item.Quantity
 
-		if err := p.db.Save(product).Error; err != nil {
+		if err := p.db.Save(&product).Error; err != nil {
 			return err
 		}
+
+		stockLogs := models.Stock{
+			Name:     product.Name,
+			Quantity: item.Quantity,
+			Price:    product.Price,
+			Category: product.Category,
+			Date:     product.UpdatedAt,
+		}
+
+		if err := p.db.Create(&stockLogs).Error; err != nil {
+			return err
+		}
+
 	}
 
 	return nil

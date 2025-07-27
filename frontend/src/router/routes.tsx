@@ -4,8 +4,6 @@ import ShopDetail from '@/pages/shop/ShopDetail';
 import type { TypeRoutes } from '@/types/Components';
 import { lazy } from 'react';
 
-const Index = lazy(() => import('@/pages/Index'));
-
 const Home = lazy(() => import('@/pages/home/HomeIndex'));
 const Login = lazy(() => import('@/pages/auth/login/LoginIndex'));
 const Register = lazy(() => import('@/pages/auth/register/RegisterIndex'));
@@ -13,6 +11,7 @@ const About = lazy(() => import('@/pages/about/AboutIndex'));
 const Contact = lazy(() => import('@/pages/contact/ContactIndex'));
 const Shop = lazy(() => import('@/pages/shop/ShopIndex'));
 const Unauthorized = lazy(() => import('@/components/Layouts/Unauthorized'));
+const HistoryIndex = lazy(() => import('@/pages/history/HistoryIndex'));
 
 export const routes: TypeRoutes[] = [
   {
@@ -46,11 +45,11 @@ export const routes: TypeRoutes[] = [
     meta: { title: 'Contact' },
   },
   {
-    path: ROUTES.ADMIN,
-    element: <Index />,
+    path: ROUTES.HISTORY,
+    element: <HistoryIndex />,
     layout: 'default',
-    allowedRoles: ['admin'],
-    meta: { title: 'Admin' },
+    allowedRoles: 'admin',
+    meta: { title: 'History' },
   },
   {
     path: ROUTES.UNAUTHORIZED,
